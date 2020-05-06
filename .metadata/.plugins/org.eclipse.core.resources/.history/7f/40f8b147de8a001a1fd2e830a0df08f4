@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: AuthenticationService
+  profiles:
+    active:
+    - dev
+server:
+  port: 8070

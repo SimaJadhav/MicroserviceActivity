@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: AuthenticationService
+  profiles:
+    active:
+    - dev
+server:
+  port: 8070
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    service-url:
+      default: http://localhost:8761/eureka
+    

@@ -1,0 +1,23 @@
+package com.ibm.ms.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ibm.ms.model.Product;
+import com.ibm.ms.service.RecOrderService;
+
+@RestController
+@RequestMapping(path = "/placeOrder")
+public class RecOrderController {
+	
+	@Autowired
+	RecOrderService service;
+	
+	@RequestMapping(path ="/product/{id}")
+	public Product findProduct(@PathVariable int id) {
+		service.getProduct(id);
+	}
+
+}

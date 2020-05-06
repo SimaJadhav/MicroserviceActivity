@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: AuthenticationService
+  profiles:
+    active:
+    - dev

@@ -1,0 +1,16 @@
+package com.ibm.ms.controller;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.ibm.ms.model.Product;
+
+@RestController
+@RequestMapping(path = "/placeOrder")
+public class RecOrderController {
+	
+	@RecOrderService 
+	
+	public Product findProduct()
+
+}

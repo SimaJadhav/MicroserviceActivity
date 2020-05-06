@@ -1,0 +1,48 @@
+spring:
+  sleuth:
+    trace-id128: true
+    sampler:
+      probability: 1.0
+  zipkin:
+    base-url: http://zipkin:9411/
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
+  datasource:
+    url: "jdbc:h2:mem:currencyDb;DB_CLOSE_DELAY=-1"
+    username: "sa"
+    password: 
+    driver-class-name: org.h2.Driver
+    
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+    
+eureka:
+  instance:
+    instanceId: ${spring.application.name}:${random.int}
+    leaseRenewalIntervalInSeconds: 2
+    leaseExpirationDurationInSeconds: 5
+    preferIpAddress: true
+    metadata-map:
+      zone: A
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    prefer-same-zone-eureka: true
+    serviceUrl:
+      defaultZone: http://eureka:8761/eureka
+    
+    
+server:
+  port: 8090
+  
+logging:
+  pattern:
+    level: "[%X{X-B3-TraceId} : %X{X-B3-SpanId}] %-5p [%t] %C{2} - %m%n"
+  

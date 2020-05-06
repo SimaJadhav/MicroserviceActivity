@@ -1,0 +1,24 @@
+server:
+  port: 8070
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    prefer-same-zone-eureka: true
+    service-url:
+      default: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.applicatiom.name}:${random.int}
+    lease-renewal-interval-in-seconds: 2
+    lease-expiration-duration-in-seconds: 5
+    prefer-ip-address: true
+    metadata-map:
+      zone: A
+      
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
+    
+    

@@ -1,0 +1,26 @@
+server.port=8072
+spring.application.name=zuul-server
+eureka.client.service-url.default-zone=http://localhost:8761/eureka/
+
+# A prefix that can added to beginning of all requests. 
+#zuul.prefix=/api
+# Map path to auth service
+zuul.routes.AuthenticationService.path=/auth/**
+zuul.routes.AuthenticationService.service-id=AuthenticationService
+
+# By default, all requests to gallery service for example will start with: "/gallery/"
+# What will be sent to the gallery service is what comes after the path defined, 
+# So, if request is "/gallery/view/1", gallery service will get "/view/1".
+# In case of auth, we need to pass the "/auth/" in the path to auth service. So, set strip-prefix to false
+zuul.routes.AuthenticationService.strip-prefix=false
+
+# Exclude authorization from sensitive headers
+zuul.routes.AuthenticationService.sensitive-headers=Cookie,Set-Cookie   
+
+# Disable accessing services using service name (i.e. gallery-service).
+# They should be only accessed through the path defined below.
+zuul.ignored-services=*
+
+# Map paths to services
+#zuul.routes.receiveorder.path=/placeOrder/**
+#zuul.routes.receiveorder.service-id=ReceiveOrder

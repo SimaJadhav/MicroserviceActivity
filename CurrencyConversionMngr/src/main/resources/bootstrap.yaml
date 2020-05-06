@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: CurrencyConversionMngr
+  profiles:
+    active:
+    - dev
