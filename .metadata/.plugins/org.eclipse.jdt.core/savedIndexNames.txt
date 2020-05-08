@@ -1,5 +1,4 @@
 INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plugins\org.eclipse.jdt.core
-4119624621.index
 3930603589.index
 2916426105.index
 709811694.index
@@ -46,7 +45,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 3399554889.index
 446753990.index
 2173439218.index
-1089195193.index
 3733468268.index
 3598170963.index
 3732107703.index
@@ -64,7 +62,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 3696401739.index
 1088719172.index
 2118439000.index
-3818822432.index
 3067994022.index
 2873935504.index
 3489896692.index
@@ -82,16 +79,13 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 1135398683.index
 625448817.index
 4148557197.index
-1472852501.index
 400198275.index
-2578794410.index
 822018419.index
 2589955883.index
 2031952570.index
 4077420592.index
 1371036198.index
 1112296031.index
-2359129411.index
 3315992747.index
 1561431263.index
 334686586.index
@@ -101,22 +95,16 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 2850601199.index
 1152394715.index
 2429332019.index
-1195950788.index
 748824346.index
 2028818090.index
 1860642593.index
 244358368.index
-1996775246.index
 1883629078.index
 4188419164.index
-3359769977.index
 3947521672.index
-76041941.index
 1055679481.index
 429183935.index
 2792129238.index
-3144104942.index
-2985861454.index
 1731984288.index
 2414603278.index
 409176450.index
@@ -127,9 +115,7 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 3092796552.index
 1241372044.index
 49888555.index
-165344324.index
 3939242443.index
-3997577572.index
 2386183436.index
 1056013413.index
 2437845329.index
@@ -154,7 +140,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 421022922.index
 315890579.index
 2003200238.index
-1247260164.index
 1342256004.index
 1201814981.index
 50899122.index
@@ -166,8 +151,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 310911248.index
 2535897020.index
 3798587683.index
-2564379220.index
-1248703628.index
 1877543843.index
 335211976.index
 1716454301.index
@@ -188,7 +171,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 1507539036.index
 1329257546.index
 4141148135.index
-162961915.index
 1986486129.index
 1366683873.index
 4214441061.index
@@ -214,7 +196,6 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 829880782.index
 1850836060.index
 2956378016.index
-1442433370.index
 295486535.index
 2609923997.index
 2417106844.index
@@ -222,11 +203,9 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 2301380171.index
 4118860981.index
 811353550.index
-1138127476.index
 3526707465.index
 90626380.index
 1994263408.index
-2452891691.index
 3808123788.index
 4266515342.index
 1641716617.index
@@ -240,5 +219,4 @@ INDEX VERSION 1.131+C:\Users\w2cluster134\Documents\FinalActivity\.metadata\.plu
 3154951655.index
 3687154224.index
 3656918171.index
-4266348648.index
 1297791586.index

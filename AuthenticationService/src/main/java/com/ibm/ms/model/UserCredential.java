@@ -1,7 +1,14 @@
 package com.ibm.ms.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class UserCredential {
-	String username,password;
+	
+	@Id
+	String username;
+	String password;
 
 	
 	public UserCredential() {

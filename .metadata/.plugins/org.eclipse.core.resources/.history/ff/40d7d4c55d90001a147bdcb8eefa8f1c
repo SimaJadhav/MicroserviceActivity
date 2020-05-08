@@ -1,0 +1,5 @@
+package com.ibm.ms.repo;
+
+public class AuthenticationRepository {
+
+}

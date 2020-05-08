@@ -8,15 +8,23 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ibm.ms.model.UserCredential;
+import com.ibm.ms.model.UserToken;
+import com.ibm.ms.repo.UserTokenRepository;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -26,12 +34,20 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 	private AuthenticationManager authManager;
 	
 	private final JwtConfig jwtConfig;
+	
+	private UserDetailsServiceImpl service;
+	
+	private String token;
+	
+	@Autowired
+	private UserTokenRepository repo;
 
 	public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager,
-			JwtConfig jwtConfig) {
+			JwtConfig jwtConfig, UserDetailsServiceImpl service) {
 		System.out.println("authentication..................................");
 		this.authManager = authenticationManager;
 		this.jwtConfig = jwtConfig;
+		this.service = service;
 		this.setRequiresAuthenticationRequestMatcher(new AntPathRequestMatcher(jwtConfig.getUri(), "POST"));
 		// TODO Auto-generated constructor stub
 	}
@@ -39,6 +55,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 	@Override
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) 
 			throws AuthenticationException{
+		System.out.println("------------attemptAuthentication------------------");
 		/*
 		 * System.out.println(
 		 * "authenticationattempt.............................................");
@@ -66,6 +83,7 @@ try {
 					creds.getUsername(), creds.getPassword(), Collections.emptyList());
 			
 			// 3. Authentication manager authenticate the user, and use UserDetialsServiceImpl::loadUserByUsername() method to load the user.
+			System.out.println("------------attemptAuthentication end------------------");
 			return authManager.authenticate(authToken);
 			
 		} catch (IOException e) {
@@ -77,19 +95,35 @@ try {
 	
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, 
 			FilterChain  chain,Authentication auth)throws IOException,ServletException{
+		
+		
 		System.out.println("successfulAuthentication......................");
 		Long now = System.currentTimeMillis();
-		String token = Jwts.builder().setSubject(auth.getName())
+		 token = Jwts.builder().setSubject(auth.getName())
 				.claim("authorities", auth.getAuthorities().stream()
 						.map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
 				.setIssuedAt(new Date(now))
 				.setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
 				.signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
 				.compact();
+		System.out.println("Token:"+token);
+		System.out.println(auth.toString());
+		
+		service.saveToken(token,auth.getName());//saveToken12(token,auth.getName());
 		
 		response.addHeader(jwtConfig.getHeader(),jwtConfig.getPrefix() + token);
 		
+		
+		
 	}
+	
+	/*
+	 * private void saveUserToken(String token, String user) {
+	 * System.out.println("saveUserToken...............................");
+	 * userService.saveToken12(token,user);
+	 * 
+	 * }
+	 */
 	
 
 }

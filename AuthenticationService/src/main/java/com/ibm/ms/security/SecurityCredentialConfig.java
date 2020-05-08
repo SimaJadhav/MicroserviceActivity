@@ -18,7 +18,7 @@ public class SecurityCredentialConfig  extends WebSecurityConfigurerAdapter{
 
 
 	@Autowired	
-	UserDetailsService userDetailsService;
+	UserDetailsServiceImpl userDetailsService;
 
 	@Autowired
 	JwtConfig jwtConfig;
@@ -26,14 +26,18 @@ public class SecurityCredentialConfig  extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("configure.....................");
+		http.headers().frameOptions().disable();
 		http.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()
 		.exceptionHandling().authenticationEntryPoint((req,resp,e) -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
 		.and()
-		.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(),jwtConfig))
+		.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(),jwtConfig,userDetailsService))
 		.authorizeRequests()
+		
 		.antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
+		.and()
+        .authorizeRequests().antMatchers("/h2/**").permitAll()
 
 		.anyRequest().authenticated();
 		System.out.println("configure end................................");
