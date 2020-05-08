@@ -9,6 +9,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,6 +33,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 	
+	Logger logger = LoggerFactory.getLogger(JwtUsernameAndPasswordAuthenticationFilter.class);
+	
 	private AuthenticationManager authManager;
 	
 	private final JwtConfig jwtConfig;
@@ -39,9 +43,6 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 	
 	private String token;
 	
-	@Autowired
-	private UserTokenRepository repo;
-
 	public JwtUsernameAndPasswordAuthenticationFilter(AuthenticationManager authenticationManager,
 			JwtConfig jwtConfig, UserDetailsServiceImpl service) {
 		System.out.println("authentication..................................");
@@ -56,22 +57,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
 	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) 
 			throws AuthenticationException{
 		System.out.println("------------attemptAuthentication------------------");
-		/*
-		 * System.out.println(
-		 * "authenticationattempt.............................................");
-		 * UserCredential credential=null; try { credential = new
-		 * ObjectMapper().readValue(request.getInputStream(),UserCredential.class);
-		 * System.out.println("credential:"+credential); } catch (IOException e) { //
-		 * TODO Auto-generated catch block e.printStackTrace(); }
-		 * UsernamePasswordAuthenticationToken authToken = new
-		 * UsernamePasswordAuthenticationToken(credential.getUsername(),
-		 * credential.getPassword(),Collections.emptyList());
-		 * System.out.println("authToken:"+authToken);
-		 * System.out.println("authenticarionattempt end......................"); return
-		 * authManager.authenticate(authToken);
-		 */
-		
-		
+			logger.info(request.toString());	
 		
 try {
 			
@@ -96,19 +82,20 @@ try {
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, 
 			FilterChain  chain,Authentication auth)throws IOException,ServletException{
 		
-		
+		logger.info(request.toString());
 		System.out.println("successfulAuthentication......................");
 		Long now = System.currentTimeMillis();
 		 token = Jwts.builder().setSubject(auth.getName())
 				.claim("authorities", auth.getAuthorities().stream()
 						.map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+				
 				.setIssuedAt(new Date(now))
 				.setExpiration(new Date(now + jwtConfig.getExpiration() * 1000))
 				.signWith(SignatureAlgorithm.HS512, jwtConfig.getSecret().getBytes())
 				.compact();
 		System.out.println("Token:"+token);
 		System.out.println(auth.toString());
-		
+		logger.info("User:"+auth.getName()+"Token:"+token);
 		service.saveToken(token,auth.getName());//saveToken12(token,auth.getName());
 		
 		response.addHeader(jwtConfig.getHeader(),jwtConfig.getPrefix() + token);
@@ -117,13 +104,7 @@ try {
 		
 	}
 	
-	/*
-	 * private void saveUserToken(String token, String user) {
-	 * System.out.println("saveUserToken...............................");
-	 * userService.saveToken12(token,user);
-	 * 
-	 * }
-	 */
+	
 	
 
 }

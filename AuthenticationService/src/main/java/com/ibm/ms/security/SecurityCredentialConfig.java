@@ -2,6 +2,8 @@ package com.ibm.ms.security;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -16,6 +18,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 public class SecurityCredentialConfig  extends WebSecurityConfigurerAdapter{
 
+	Logger logger = LoggerFactory.getLogger(SecurityCredentialConfig.class);
 
 	@Autowired	
 	UserDetailsServiceImpl userDetailsService;
@@ -26,6 +29,7 @@ public class SecurityCredentialConfig  extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		System.out.println("configure.....................");
+		logger.info(http.toString());
 		http.headers().frameOptions().disable();
 		http.csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
@@ -33,8 +37,7 @@ public class SecurityCredentialConfig  extends WebSecurityConfigurerAdapter{
 		.exceptionHandling().authenticationEntryPoint((req,resp,e) -> resp.sendError(HttpServletResponse.SC_UNAUTHORIZED))
 		.and()
 		.addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(),jwtConfig,userDetailsService))
-		.authorizeRequests()
-		
+		.authorizeRequests()		
 		.antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()
 		.and()
         .authorizeRequests().antMatchers("/h2/**").permitAll()

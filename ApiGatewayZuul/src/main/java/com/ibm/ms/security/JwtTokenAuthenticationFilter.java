@@ -10,6 +10,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,6 +23,7 @@ import io.jsonwebtoken.Jwts;
 
 public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
     
+	Logger logger = LoggerFactory.getLogger(JwtTokenAuthenticationFilter.class);
 	@Autowired
 	private final JwtConfig jwtConfig;
 	
@@ -31,6 +34,7 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
 			throws ServletException, IOException {
+		logger.info(request.toString());
 		System.out.println("---------------------------doFilterInternal--------------------------");
 		// 1. get the authentication header. Tokens are supposed to be passed in the authentication header
 		Enumeration<String> tempHeader = request.getHeaderNames();
@@ -70,7 +74,7 @@ public class JwtTokenAuthenticationFilter extends  OncePerRequestFilter {
 				// It needs a list of authorities, which has type of GrantedAuthority interface, where SimpleGrantedAuthority is an implementation of that interface
 				 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
 								 username, null, authorities.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList()));
-				 
+				 logger.info(auth.toString());
 				 // 6. Authenticate the user
 				 // Now, user is authenticated
 				 SecurityContextHolder.getContext().setAuthentication(auth);

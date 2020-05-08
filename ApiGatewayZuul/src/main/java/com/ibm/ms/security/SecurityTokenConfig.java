@@ -2,6 +2,8 @@ package com.ibm.ms.security;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -13,11 +15,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @EnableWebSecurity 	// Enable security config. This annotation denotes config for spring security.
 public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
+	Logger logger = LoggerFactory.getLogger(SecurityTokenConfig.class);
+	
 	@Autowired
 	private JwtConfig jwtConfig;
  
 	@Override
   	protected void configure(HttpSecurity http) throws Exception {
+		logger.info(http.toString());
     	   http
 		.csrf().disable()
 		    // make sure we use stateless session; session won't be used to store user's state.
@@ -32,9 +37,9 @@ public class SecurityTokenConfig extends WebSecurityConfigurerAdapter {
 		.authorizeRequests()
 		   // allow all who are accessing "auth" service
 		   .antMatchers(HttpMethod.POST, jwtConfig.getUri()).permitAll()  
-		   .antMatchers("/h2").permitAll() 
+		  // .antMatchers("/h2").permitAll() 
 		   // must be an admin if trying to access admin area (authentication is also required here)
-		   .antMatchers("/placeOrder").hasRole("ADMIN")
+		   //.antMatchers("/placeOrder").hasRole("ADMIN")
 		   // Any other request must be authenticated
 		   .anyRequest().authenticated(); 
 	}
